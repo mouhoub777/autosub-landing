@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AutoSub - Premium Landing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.css" rel="stylesheet">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #101013;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+    .main {
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      max-width: 1300px;
+      width: 100%;
+    }
+
+    .form {
+      flex: 1;
+      max-width: 500px;
+    }
+
+    .form label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .form input[type="text"],
+    .form input[type="number"],
+    .form input[type="email"],
+    .form input[type="datetime-local"],
+    .form select,
+    .form textarea,
+    .form input[type="file"],
+    .form input[type="color"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #18181b;
+      color: #fff;
+      resize: none;
+      box-sizing: border-box;
+    }
+
+    .btn {
+      background: #ffd600;
+      color: #101013;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      margin-top: 20px;
+      width: 100%;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .preview {
+      background: #fff;
+      color: #101013;
+      flex: 1;
+      padding: 20px;
+      border-radius: 16px;
+      min-width: 350px;
+      max-width: 450px;
+      box-shadow: 0 0 15px rgba(255, 214, 0, 0.2);
+      border: 2px solid #ffd600;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+
+    .live-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 400px;
+    }
+
+    .live-info h3 {
+      color: #ffd600;
+      margin: 0 0 10px 0;
+    }
+
+    .live-info label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .live-info input,
+    .live-info select,
+    .live-info textarea {
+      background: #18181b;
+      color: #fff;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .live-info input[type="checkbox"] {
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .live-info textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .preview img.logo {
+      max-width: 90px;
+      display: block;
+      margin: 10px auto;
+      border-radius: 50%;
+    }
+
+    .preview h1 {
+      font-size: 2rem;
+      margin: 5px 0;
+      font-family: 'Poppins', sans-serif;
+      color: #101013;
+      text-align: center;
+    }
+
+    .preview h4 {
+      font-size: 1rem;
+      color: #101013;
+      margin: 5px 0;
+      text-align: center;
+    }
+
+    .preview .desc {
+      font-size: 0.95rem;
+      color: #101013;
+      margin-bottom: 15px;
+    }
+
+    .colors {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.9rem;
+    }
+
+    /* Styles pour les éditeurs Quill */
+    #descEditor, #slogan-editor, #trainerEditor {
+      background: #fff !important;
+      color: #000 !important;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      min-height: 80px;
+    }
+
+    #descEditor {
+      height: 200px;
+    }
+
+    .ql-toolbar.ql-snow {
+      background: #f8f8f8 !important;
+      border-bottom: 1px solid #ccc !important; 
+    }
+
+    .ql-container.ql-snow {
+      background: #fff !important;
+    }
+
+    .ql-editor {
+      color: #000 !important;
+    }
+
+    #listType {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #18181b;
+      color: #fff;
+    }
+
+    .btn-subscribe {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      text-transform: none;
+      letter-spacing: normal;
+      box-shadow: none;
+      background: #ffd600;
+      color: #101013;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background: #101013;
+      margin: 5% auto;
+      padding: 30px;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 0 30px rgba(255, 214, 0, 0.3);
+      border: 2px solid #ffd600;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      position: relative;
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .modal-header h2 {
+      color: #ffd600;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.5rem;
+    }
+
+    .modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .modal-form label {
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #fff;
+    }
+
+    .modal-form input[type="text"],
+    .modal-form input[type="email"],
+    .modal-form input[type="tel"] {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #18181b;
+      color: #fff;
+      font-size: 0.95rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .modal-form input[type="text"]:focus,
+    .modal-form input[type="email"]:focus,
+    .modal-form input[type="tel"]:focus {
+      outline: none;
+      border-color: #ffd600;
+    }
+
+    .reminder-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .reminder-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: #18181b;
+    }
+
+    .reminder-option:hover {
+      border-color: #ffd600;
+      background: rgba(255, 214, 0, 0.1);
+    }
+
+    .reminder-option input[type="radio"] {
+      accent-color: #ffd600;
+    }
+
+    .whatsapp-number {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .telegram-link {
+      background: rgba(255, 214, 0, 0.1);
+      border: 1px solid #ffd600;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .telegram-link a {
+      color: #ffd600;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .telegram-link a:hover {
+      text-decoration: underline;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .modal-btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+      flex: 1;
+    }
+
+    .modal-btn-primary {
+      background: #ffd600;
+      color: #101013;
+    }
+
+    .modal-btn-primary:hover {
+      background: #ffcc00;
+    }
+
+    .modal-btn-secondary {
+      background: transparent;
+      color: #fff;
+      border: 1px solid #333;
+    }
+
+    .modal-btn-secondary:hover {
+      border-color: #ffd600;
+      color: #ffd600;
+    }
+
+    .close {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .close:hover {
+      color: #ffd600;
+    }
+
+    .error-message {
+      color: #ff4444;
+      font-size: 0.9rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    /* Styles pour désactiver la page après inscription */
+    .readonly-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .page-disabled {
+      pointer-events: none;
+      filter: grayscale(100%);
+      opacity: 0.3;
+    }
+
+    .success-message {
+      background: rgba(255, 214, 0, 0.1);
+      border: 2px solid #ffd600;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px 0;
+      color: #ffd600;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+    }
+
+    @media(max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .form, .preview, .live-info {
+        max-width: 90%;
+        width: 100%;
+      }
+      .preview, .live-info {
+        margin-top: 20px;
+      }
+      .modal-content {
+        margin: 10% auto;
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="readonly-overlay" id="readonlyOverlay">
+  <div>
+    <h2>🎉 Inscription réussie !</h2>
+    <p>Cette page est maintenant en mode lecture seule.</p>
+  </div>
+</div>
+
+<div class="main">
+  <div class="container">
+
+    <!-- FORMULAIRE PRINCIPAL À GAUCHE -->
+    <div class="form">
+      <h2>Create Landing</h2>
+
+      <label>Logo</label>
+      <input type="file" id="logo" accept="image/*">
+
+      <label>Brand Title *</label>
+      <input type="text" id="brand" maxlength="40" required placeholder="Ex: My Company">
+
+      <label>Event Type *</label>
+      <input type="text" id="eventType" maxlength="30" required placeholder="live/masterclass/webinaire" value="live">
+
+      <label>Subtitle *</label>
+      <div id="slogan-editor"></div>
+
+      <label>Description</label>
+      <select id="listType">
+        <option value="">Insert element</option>
+        <option value="➔">➔ Arrow</option>
+        <option value="■">■ Square</option>
+        <option value="①">①</option>
+        <option value="💬">💬</option>
+        <option value="💸">💸</option>
+        <option value="📈">📈</option>
+        <option value="🏆">🏆</option>
+        <option value="🔑">🔑</option>
+        <option value="🚪">🚪</option>
+        <option value="📩">📩</option>
+        <option value="👀">👀</option>
+        <option value="🚀">🚀</option>
+        <option value="📲">📲</option>
+        <option value="🔓">🔓</option>
+      </select>
+      <div id="descEditor"></div>
+
+      <label>Image</label>
+      <input type="file" id="thirdImg" accept="image/*">
+
+      <label>Colors</label>
+      <div class="colors">
+        <input type="color" id="bgColor" value="#ffffff">
+        <input type="color" id="borderColor" value="#ffd600">
+      </div>
+
+      <button type="button" class="btn" onclick="createLanding()">Create my page</button>
+      <p class="error" id="error"></p>
+    </div>
+
+    <!-- PREVIEW AU CENTRE -->
+    <div class="preview" id="preview">
+      <img id="prevLogo" class="logo" style="display:none;">
+      <h1 id="prevBrand">Brand Name</h1>
+      <h4 id="prevSlogan">Subtitle</h4>
+      <p id="prevLiveDate" style="display:none; margin-top:10px; color:#101013; font-weight:bold;"></p>
+      <div class="desc" id="prevDesc"></div>
+      <h4 id="prevTrainerName" style="margin-top: 15px; font-weight: bold; color: #101013; display: none; text-align: left;"></h4>
+      <div id="prevTrainerIntro" style="margin-top: 5px; color: #333; display: none;"></div>
+      <img id="prevTrainerImg" style="display: none; max-width: 100%; border-radius: 10px; margin-top: 10px;">
+      <img id="prevThird" style="display:none; max-width:100%; border-radius:10px; margin:15px 0;">
+      <button class="btn-subscribe" style="margin-top: 20px; width: 100%;" onclick="openModal()">Register Now</button>
+    </div>
+
+    <!-- INFOS LIVE À DROITE -->
+    <div class="live-info">
+
+      <label for="liveDate">📅 Date and time of the live *</label>
+      <input type="datetime-local" id="liveDate" required>
+
+      <label for="trainerName">👤 Trainer's name *</label>
+      <input type="text" id="trainerName" maxlength="60" required placeholder="Ex: John Doe">
+
+      <label>📝 Trainer introduction</label>
+      <div id="trainerEditor"></div>
+
+      <label>🖼️ Trainer's image (optional)</label>
+      <input type="file" id="trainerImg" accept="image/*">
+
+      <label>🧾 Google Forms link (optional)</label>
+      <input type="text" id="googleFormUrl" placeholder="https://forms.gle/...">
+
+      <label>📧 Email content to send after registration *</label>
+      <textarea id="emailContent" required placeholder="Écrivez ici le contenu de l'email qui sera envoyé automatiquement après l'inscription..."></textarea>
+
+      <label>💬 Telegram Reminder</label>
+      <div>
+        <input type="checkbox" id="remindTelegram"> Enable
+        <select id="remindTelegramTime" style="margin-left:10px; width:auto;">
+          <option value="">When?</option>
+          <option value="15">15 min before</option>
+          <option value="30">30 min before</option>
+          <option value="45">45 min before</option>
+          <option value="60">1 hour before</option>
+          <option value="120">2 hours before</option>
+        </select>
+      </div>
+
+      <label>📱 WhatsApp Reminder</label>
+      <div>
+        <input type="checkbox" id="remindWhatsApp"> Enable
+        <select id="remindWhatsAppTime" style="margin-left:10px; width:auto;">
+          <option value="">When?</option>
+          <option value="15">15 min before</option>
+          <option value="30">30 min before</option>
+          <option value="60">1 hour before</option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal d'inscription -->
+<div id="registrationModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <div class="modal-header">
+      <h2>🎯 Register for the Live</h2>
+    </div>
+    <form class="modal-form" id="registrationForm">
+      <div>
+        <label for="firstName">First Name *</label>
+        <input type="text" id="firstName" required placeholder="Enter your first name">
+        <div class="error-message" id="firstNameError">Please enter your first name</div>
+      </div>
+
+      <div>
+        <label for="userEmail">Email *</label>
+        <input type="email" id="userEmail" required placeholder="Enter your email">
+        <div class="error-message" id="emailError">Please enter a valid email</div>
+      </div>
+
+      <div>
+        <label>Receive reminders via:</label>
+        <div class="reminder-options">
+          <div class="reminder-option">
+            <input type="radio" id="whatsapp" name="reminderType" value="whatsapp">
+            <label for="whatsapp">📱 WhatsApp</label>
+          </div>
+          <div class="reminder-option">
+            <input type="radio" id="telegram" name="reminderType" value="telegram">
+            <label for="telegram">💬 Telegram</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="whatsapp-number" id="whatsappNumber" style="display: none;">
+        <label for="phoneNumber">📱 WhatsApp Number *</label>
+        <input type="tel" id="phoneNumber" placeholder="+33 6 12 34 56 78">
+        <div class="error-message" id="phoneError">Please enter your WhatsApp number</div>
+      </div>
+
+      <div class="telegram-link" id="telegramLink">
+        <p>📱 Click the link below to join our Telegram channel:</p>
+        <a href="https://t.me/your_channel_link" target="_blank" id="telegramUrl">Join Telegram Channel</a>
+      </div>
+
+      <div class="modal-buttons">
+        <button type="button" class="modal-btn modal-btn-secondary" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="modal-btn modal-btn-primary">Register</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Scripts Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-functions-compat.js"></script>
+
+<!-- Scripts dans le bon ordre -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.min.js"></script>
+
+<script>
+console.log('🚀 Script started');
+
+// Configuration Firebase
+let db = null;
+let storage = null;
+let functions = null;
+let currentLandingPageId = null;
+
+try {
+  const firebaseConfig = {
+    apiKey: "AIzaSyDCdErRIPkomQvtTVGtMbfUuU9q4S_HH1w",
+    authDomain: "autosub-ab7b1.firebaseapp.com",
+    projectId: "autosub-ab7b1",
+    storageBucket: "autosub-ab7b1.appspot.com",
+    messagingSenderId: "237004008489",
+    appId: "1:237004008489:web:673ae4593206846440c038"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+  storage = firebase.storage();
+  functions = firebase.functions();
+  console.log('✅ Firebase initialized successfully');
+} catch (error) {
+  console.warn('⚠️ Firebase initialization failed:', error);
+  console.log('📝 Will work in offline mode (data logged to console)');
+}
+
+// Variables globales
+let quill, sloganEditor, trainerEditor;
+
+// FONCTIONS FIRESTORE
+async function saveLandingPageToFirestore(landingData) {
+  if (!db) {
+    console.warn('⚠️ Firestore not available, logging data instead');
+    console.log('📝 LANDING PAGE DATA:', landingData);
+    return 'offline-' + Date.now();
+  }
+
+  try {
+    console.log('💾 Saving landing page to Firestore...');
+    
+    const docRef = await db.collection('landingPages').add({
+      // Informations de base
+      brandName: landingData.brandName,
+      eventType: landingData.eventType,
+      subtitle: landingData.subtitle,
+      description: landingData.description,
+      
+      // Images
+      logoUrl: landingData.logoUrl || null,
+      trainerImageUrl: landingData.trainerImageUrl || null,
+      thirdImageUrl: landingData.thirdImageUrl || null,
+      
+      // Design
+      backgroundColor: landingData.backgroundColor,
+      borderColor: landingData.borderColor,
+      
+      // Informations du formateur
+      trainerName: landingData.trainerName,
+      trainerIntro: landingData.trainerIntro || '',
+      
+      // Date et heure
+      liveDate: firebase.firestore.Timestamp.fromDate(new Date(landingData.liveDate)),
+      
+      // Configuration email
+      emailContent: landingData.emailContent,
+      
+      // Liens externes
+      googleFormUrl: landingData.googleFormUrl || '',
+      
+      // Configuration des rappels
+      reminderTelegram: {
+        enabled: landingData.reminderTelegram.enabled,
+        minutesBefore: landingData.reminderTelegram.minutesBefore || 0
+      },
+      reminderWhatsApp: {
+        enabled: landingData.reminderWhatsApp.enabled,
+        minutesBefore: landingData.reminderWhatsApp.minutesBefore || 0
+      },
+      
+      // Métadonnées
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      isActive: true,
+      pageId: docRef.id
+    });
+
+    console.log('✅ Landing page saved with ID:', docRef.id);
+    return docRef.id;
+    
+  } catch (error) {
+    console.error('❌ Error saving landing page:', error);
+    throw error;
+  }
+}
+
+async function saveRegistrationToFirestore(registrationData) {
+  if (!db) {
+    console.warn('⚠️ Firestore not available, logging data instead');
+    console.log('📝 REGISTRATION DATA:', registrationData);
+    return 'offline-' + Date.now();
+  }
+
+  try {
+    console.log('💾 Saving registration to Firestore...');
+    
+    const registrationId = db.collection('registrations').doc().id;
+    
+    const docData = {
+      // Informations utilisateur
+      firstName: registrationData.firstName,
+      email: registrationData.email.toLowerCase().trim(),
+      phoneNumber: registrationData.phoneNumber || '',
+      
+      // Type de rappel choisi
+      reminderType: registrationData.reminderType || 'none',
+      
+      // Référence à la landing page
+      landingPageId: registrationData.landingPageId,
+      
+      // Informations copiées de la landing page
+      brandName: registrationData.brandName,
+      eventType: registrationData.eventType,
+      liveDate: firebase.firestore.Timestamp.fromDate(new Date(registrationData.liveDate)),
+      trainerName: registrationData.trainerName,
+      emailContent: registrationData.emailContent,
+      
+      // Statuts
+      emailSent: false,
+      emailSentAt: null,
+      reminderSent: false,
+      reminderSentAt: null,
+      
+      // Métadonnées
+      registeredAt: firebase.firestore.FieldValue.serverTimestamp(),
+      registrationId: registrationId,
+      userAgent: navigator.userAgent,
+      ipAddress: null
+    };
+
+    await db.collection('registrations').doc(registrationId).set(docData);
+    console.log('✅ Registration saved with ID:', registrationId);
+    
+    return registrationId;
+    
+  } catch (error) {
+    console.error('❌ Error saving registration:', error);
+    throw error;
+  }
+}
+
+async function checkExistingRegistration(email, landingPageId) {
+  if (!db) {
+    console.warn('⚠️ Firestore not available, skipping duplicate check');
+    return false;
+  }
+
+  try {
+    const query = await db.collection('registrations')
+      .where('email', '==', email.toLowerCase().trim())
+      .where('landingPageId', '==', landingPageId)
+      .limit(1)
+      .get();
+    
+    return !query.empty;
+  } catch (error) {
+    console.error('❌ Error checking existing registration:', error);
+    return false;
+  }
+}
+
+async function logEmailSent(emailLogData) {
+  if (!db) {
+    console.warn('⚠️ Firestore not available, logging email data instead');
+    console.log('📧 EMAIL LOG:', emailLogData);
+    return;
+  }
+
+  try {
+    await db.collection('emailLogs').add({
+      registrationId: emailLogData.registrationId,
+      landingPageId: emailLogData.landingPageId,
+      recipientEmail: emailLogData.recipientEmail,
+      emailType: emailLogData.emailType,
+      subject: emailLogData.subject,
+      htmlContent: emailLogData.htmlContent,
+      sent: emailLogData.sent,
+      sentAt: emailLogData.sent ? firebase.firestore.FieldValue.serverTimestamp() : null,
+      error: emailLogData.error || null,
+      messageId: emailLogData.messageId || null,
+      deliveryStatus: emailLogData.deliveryStatus || 'pending'
+    });
+    
+    console.log('✅ Email log saved');
+  } catch (error) {
+    console.error('❌ Error saving email log:', error);
+  }
+}
+
+async function updateRegistrationEmailStatus(registrationId, emailSent = true, error = null) {
+  if (!db) {
+    console.warn('⚠️ Firestore not available');
+    return;
+  }
+
+  try {
+    const updateData = {
+      emailSent: emailSent,
+      emailSentAt: emailSent ? firebase.firestore.FieldValue.serverTimestamp() : null
+    };
+
+    if (error) {
+      updateData.emailError = error;
+    }
+
+    await db.collection('registrations').doc(registrationId).update(updateData);
+    console.log('✅ Registration email status updated');
+  } catch (error) {
+    console.error('❌ Error updating registration email status:', error);
+  }
+}
+
+// Fonction pour désactiver la page
+function disablePage() {
+  document.getElementById('readonlyOverlay').style.display = 'flex';
+  document.querySelector('.main').classList.add('page-disabled');
+}
+
+// Fonction d'upload d'image vers Firebase Storage
+async function uploadImageToFirebase(file, path) {
+  if (!storage) {
+    console.warn('⚠️ Storage not available, skipping upload');
+    return null;
+  }
+
+  try {
+    const originalName = file.name;
+    const cleanedName = originalName
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[()]/g, '')
+      .replace(/[àâä]/g, 'a')
+      .replace(/[éèêë]/g, 'e')
+      .replace(/[ïî]/g, 'i')
+      .replace(/[ôö]/g, 'o')
+      .replace(/[ùûü]/g, 'u')
+      .replace(/[ç]/g, 'c')
+      .replace(/[^a-z0-9.\-]/g, '');
+
+    const timestamp = Date.now();
+    const fileName = `${timestamp}-${cleanedName}`;
+    const storageRef = storage.ref(`${path}/${fileName}`);
+    
+    console.log(`🔄 Uploading ${fileName}...`);
+    const snapshot = await storageRef.put(file);
+    const url = await snapshot.ref.getDownloadURL();
+    console.log(`✅ Upload successful: ${fileName}`);
+    return url;
+  } catch (error) {
+    console.error('❌ Upload failed:', error);
+    throw error;
+  }
+}
+
+// Fonction pour envoyer l'email automatiquement
+async function sendAutoEmail(registrationData) {
+  const emailContent = document.getElementById('emailContent').value.trim();
+  
+  if (!emailContent) {
+    console.warn('⚠️ No email content provided');
+    return false;
+  }
+
+  const emailData = {
+    to: registrationData.email,
+    subject: `Confirmation d'inscription - ${registrationData.brandName}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
+        <div style="background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+          <h2 style="color: #333; text-align: center; margin-bottom: 20px;">
+            🎉 Inscription confirmée !
+          </h2>
+          
+          <p style="color: #666; font-size: 16px; line-height: 1.6;">
+            Bonjour ${registrationData.firstName},
+          </p>
+          
+          <p style="color: #666; font-size: 16px; line-height: 1.6;">
+            Merci de vous être inscrit(e) à notre ${registrationData.eventType} : <strong>${registrationData.brandName}</strong>
+          </p>
+          
+          <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffd600;">
+            <div style="color: #333; font-size: 16px; line-height: 1.6;">
+              ${emailContent.replace(/\n/g, '<br>')}
+            </div>
+          </div>
+          
+          <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p style="margin: 0; color: #1976d2; font-weight: bold;">📅 Détails de l'événement :</p>
+            <p style="margin: 5px 0; color: #333;">
+              <strong>Date :</strong> ${new Date(registrationData.liveDate).toLocaleDateString('fr-FR', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
+            </p>
+            <p style="margin: 5px 0; color: #333;">
+              <strong>Formateur :</strong> ${registrationData.trainerName}
+            </p>
+          </div>
+          
+          ${registrationData.reminderType !== 'none' ? `
+            <p style="color: #666; font-size: 14px; text-align: center; margin-top: 20px;">
+              💬 Vous recevrez un rappel via ${registrationData.reminderType === 'whatsapp' ? 'WhatsApp' : 'Telegram'} avant l'événement.
+            </p>
+          ` : ''}
+          
+          <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+            <p style="color: #999; font-size: 12px;">
+              Email envoyé automatiquement • ID: ${registrationData.registrationId}
+            </p>
+          </div>
+        </div>
+      </div>
+    `,
+    // Métadonnées pour le tracking
+    metadata: {
+      registrationId: registrationData.registrationId,
+      landingPageId: registrationData.landingPageId,
+      emailType: 'registration_confirmation',
+      sentAt: new Date()
+    }
+  };
+
+  try {
+    if (functions) {
+      // Utiliser Firebase Functions pour envoyer l'email
+      const sendEmailFunction = functions.httpsCallable('sendEmail');
+      await sendEmailFunction(emailData);
+      console.log('✅ Email sent successfully via Firebase Functions');
+      
+      // Logger l'email dans Firestore
+      await logEmailSent({
+        registrationId: registrationData.registrationId,
+        landingPageId: registrationData.landingPageId,
+        recipientEmail: registrationData.email,
+        emailType: 'registration_confirmation',
+        subject: emailData.subject,
+        htmlContent: emailData.html,
+        sent: true
+      });
+      
+      // Mettre à jour le statut dans la registration
+      await updateRegistrationEmailStatus(registrationData.registrationId, true);
+      
+      return true;
+    } else {
+      // Mode offline - logger les données
+      console.log('📧 EMAIL DATA (offline mode):', emailData);
+      console.log('📧 Email would be sent to:', registrationData.email);
+      return true;
+    }
+  } catch (error) {
+    console.error('❌ Error sending email:', error);
+    
+    // Logger l'erreur
+    await logEmailSent({
+      registrationId: registrationData.registrationId,
+      landingPageId: registrationData.landingPageId,
+      recipientEmail: registrationData.email,
+      emailType: 'registration_confirmation',
+      subject: emailData.subject,
+      htmlContent: emailData.html,
+      sent: false,
+      error: error.message
+    });
+    
+    // Mettre à jour le statut dans la registration
+    await updateRegistrationEmailStatus(registrationData.registrationId, false, error.message);
+    
+    return false;
+  }
+}
+
+// Fonctions Modal
+function openModal() {
+  document.getElementById('registrationModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('registrationModal').style.display = 'none';
+  document.body.style.overflow = 'auto';
+  document.getElementById('registrationForm').reset();
+  document.getElementById('telegramLink').style.display = 'none';
+  document.getElementById('whatsappNumber').style.display = 'none';
+  document.querySelectorAll('.error-message').forEach(error => {
+    error.style.display = 'none';
+  });
+}
+
+async function submitRegistration() {
+  const firstName = document.getElementById('firstName').value.trim();
+  const email = document.getElementById('userEmail').value.trim();
+  const reminderType = document.querySelector('input[name="reminderType"]:checked')?.value || 'none';
+  const phoneNumber = document.getElementById('phoneNumber').value.trim();
+
+  let hasError = false;
+  
+  if (!firstName) {
+    document.getElementById('firstNameError').style.display = 'block';
+    hasError = true;
+  } else {
+    document.getElementById('firstNameError').style.display = 'none';
+  }
+
+  if (!email || !email.includes('@')) {
+    document.getElementById('emailError').style.display = 'block';
+    hasError = true;
+  } else {
+    document.getElementById('emailError').style.display = 'none';
+  }
+
+  if (reminderType === 'whatsapp' && !phoneNumber) {
+    document.getElementById('phoneError').style.display = 'block';
+    hasError = true;
+  } else {
+    document.getElementById('phoneError').style.display = 'none';
+  }
+
+  if (hasError) return;
+
+  // Vérifier si l'email est déjà inscrit
+  if (currentLandingPageId) {
+    const alreadyRegistered = await checkExistingRegistration(email, currentLandingPageId);
+    if (alreadyRegistered) {
+      alert('Cette adresse email est déjà inscrite pour cet événement.');
+      return;
+    }
+  }
+
+  try {
+    const registrationData = {
+      firstName: firstName,
+      email: email,
+      phoneNumber: phoneNumber,
+      reminderType: reminderType,
+      landingPageId: currentLandingPageId,
+      brandName: document.getElementById('brand').value,
+      eventType: document.getElementById('eventType').value,
+      liveDate: document.getElementById('liveDate').value,
+      trainerName: document.getElementById('trainerName').value,
+      emailContent: document.getElementById('emailContent').value
+    };
+
+    // Sauvegarder l'inscription
+    const registrationId = await saveRegistrationToFirestore(registrationData);
+    registrationData.registrationId = registrationId;
+
+    // Envoyer l'email automatiquement
+    const emailSent = await sendAutoEmail(registrationData);
+
+    if (emailSent) {
+      alert('🎉 Inscription réussie ! Vous allez recevoir un email de confirmation.');
+    } else {
+      alert('⚠️ Inscription enregistrée mais l\'email de confirmation n\'a pas pu être envoyé.');
+    }
+
+    closeModal();
+    disablePage();
+
+  } catch (error) {
+    console.error('❌ Error during registration:', error);
+    alert('❌ Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
+  }
+}
+
+// RESTE DU CODE EXISTANT...
+// Initialisation des éditeurs Quill
+function initQuillEditors() {
+  try {
+    // Éditeur de description
+    quill = new Quill('#descEditor', {
+      theme: 'snow',
+      placeholder: 'Décrivez votre événement...',
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          [{ 'size': ['small', false, 'large'] }],
+          [{ 'color': [] }, { 'background': [] }],
+          ['link']
+        ]
+      }
+    });
+
+    // Éditeur de slogan
+    sloganEditor = new Quill('#slogan-editor', {
+      theme: 'snow',
+      placeholder: 'Votre slogan accrocheur...',
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline'],
+          [{ 'size': ['small', false, 'large'] }],
+          [{ 'color': [] }]
+        ]
+      }
+    });
+
+    // Éditeur d'introduction du formateur
+    trainerEditor = new Quill('#trainerEditor', {
+      theme: 'snow',
+      placeholder: 'Présentez le formateur...',
+      modules: {
+        toolbar: [
+          ['bold', 'italic'],
+          [{ 'list': 'bullet' }],
+          [{ 'size': ['small', false, 'large'] }]
+        ]
+      }
+    });
+
+    console.log('✅ Quill editors initialized');
+  } catch (error) {
+    console.error('❌ Error initializing Quill editors:', error);
+  }
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('📄 DOM loaded, initializing...');
+  
+  setTimeout(() => {
+    initQuillEditors();
+    setupEventListeners();
+  }, 100);
+});
+
+function setupEventListeners() {
+  // Brand title preview
+  document.getElementById('brand').addEventListener('input', function() {
+    document.getElementById('prevBrand').textContent = this.value || 'Brand Name';
+  });
+
+  // Logo preview
+  document.getElementById('logo').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const prevLogo = document.getElementById('prevLogo');
+        prevLogo.src = e.target.result;
+        prevLogo.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Third image preview
+  document.getElementById('thirdImg').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const prevThird = document.getElementById('prevThird');
+        prevThird.src = e.target.result;
+        prevThird.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Trainer image preview
+  document.getElementById('trainerImg').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const prevTrainerImg = document.getElementById('prevTrainerImg');
+        prevTrainerImg.src = e.target.result;
+        prevTrainerImg.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Live date preview
+  document.getElementById('liveDate').addEventListener('input', function() {
+    if (this.value) {
+      const date = new Date(this.value);
+      const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      document.getElementById('prevLiveDate').textContent = '📅 ' + date.toLocaleDateString('fr-FR', options);
+      document.getElementById('prevLiveDate').style.display = 'block';
+    } else {
+      document.getElementById('prevLiveDate').style.display = 'none';
+    }
+  });
+
+  // Trainer name preview
+  document.getElementById('trainerName').addEventListener('input', function() {
+    const prevTrainerName = document.getElementById('prevTrainerName');
+    if (this.value) {
+      prevTrainerName.textContent = '👤 ' + this.value;
+      prevTrainerName.style.display = 'block';
+    } else {
+      prevTrainerName.style.display = 'none';
+    }
+  });
+
+  // Colors preview
+  document.getElementById('bgColor').addEventListener('input', function() {
+    document.getElementById('preview').style.backgroundColor = this.value;
+  });
+
+  document.getElementById('borderColor').addEventListener('input', function() {
+    document.getElementById('preview').style.borderColor = this.value;
+  });
+
+  // List type selector
+  document.getElementById('listType').addEventListener('change', function() {
+    if (this.value && quill) {
+      const range = quill.getSelection();
+      if (range) {
+        quill.insertText(range.index, this.value + ' ');
+      } else {
+        quill.insertText(0, this.value + ' ');
+      }
+    }
+  });
+
+  // Quill editors content change
+  if (quill) {
+    quill.on('text-change', function() {
+      document.getElementById('prevDesc').innerHTML = quill.root.innerHTML;
+    });
+  }
+
+  if (sloganEditor) {
+    sloganEditor.on('text-change', function() {
+      document.getElementById('prevSlogan').innerHTML = sloganEditor.root.innerHTML;
+    });
+  }
+
+  if (trainerEditor) {
+    trainerEditor.on('text-change', function() {
+      const content = trainerEditor.root.innerHTML;
+      const prevTrainerIntro = document.getElementById('prevTrainerIntro');
+      if (content.trim() && content !== '<p><br></p>') {
+        prevTrainerIntro.innerHTML = content;
+        prevTrainerIntro.style.display = 'block';
+      } else {
+        prevTrainerIntro.style.display = 'none';
+      }
+    });
+  }
+
+  // Modal reminder type selection
+  document.querySelectorAll('input[name="reminderType"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      const whatsappNumber = document.getElementById('whatsappNumber');
+      const telegramLink = document.getElementById('telegramLink');
+      
+      if (this.value === 'whatsapp') {
+        whatsappNumber.style.display = 'block';
+        telegramLink.style.display = 'none';
+      } else if (this.value === 'telegram') {
+        whatsappNumber.style.display = 'none';
+        telegramLink.style.display = 'block';
+      } else {
+        whatsappNumber.style.display = 'none';
+        telegramLink.style.display = 'none';
+      }
+    });
+  });
+
+  // Registration form submission
+  document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    submitRegistration();
+  });
+
+  console.log('✅ Event listeners setup complete');
+}
+
+// Fonction principale pour créer la landing page
+async function createLanding() {
+  console.log('🎯 Creating landing page...');
+  
+  const errorElement = document.getElementById('error');
+  errorElement.textContent = '';
+
+  // Validation des champs requis
+  const brandName = document.getElementById('brand').value.trim();
+  const eventType = document.getElementById('eventType').value.trim();
+  const liveDate = document.getElementById('liveDate').value;
+  const trainerName = document.getElementById('trainerName').value.trim();
+  const emailContent = document.getElementById('emailContent').value.trim();
+
+  if (!brandName || !eventType || !liveDate || !trainerName || !emailContent) {
+    errorElement.textContent = '❌ Veuillez remplir tous les champs obligatoires.';
+    return;
+  }
+
+  try {
+    const landingData = {
+      brandName: brandName,
+      eventType: eventType,
+      subtitle: sloganEditor ? sloganEditor.root.innerHTML : '',
+      description: quill ? quill.root.innerHTML : '',
+      backgroundColor: document.getElementById('bgColor').value,
+      borderColor: document.getElementById('borderColor').value,
+      trainerName: trainerName,
+      trainerIntro: trainerEditor ? trainerEditor.root.innerHTML : '',
+      liveDate: liveDate,
+      emailContent: emailContent,
+      googleFormUrl: document.getElementById('googleFormUrl').value.trim(),
+      reminderTelegram: {
+        enabled: document.getElementById('remindTelegram').checked,
+        minutesBefore: parseInt(document.getElementById('remindTelegramTime').value) || 0
+      },
+      reminderWhatsApp: {
+        enabled: document.getElementById('remindWhatsApp').checked,
+        minutesBefore: parseInt(document.getElementById('remindWhatsAppTime').value) || 0
+      }
+    };
+
+    // Upload des images
+    const logoFile = document.getElementById('logo').files[0];
+    if (logoFile) {
+      landingData.logoUrl = await uploadImageToFirebase(logoFile, 'logos');
+    }
+
+    const trainerImgFile = document.getElementById('trainerImg').files[0];
+    if (trainerImgFile) {
+      landingData.trainerImageUrl = await uploadImageToFirebase(trainerImgFile, 'trainers');
+    }
+
+    const thirdImgFile = document.getElementById('thirdImg').files[0];
+    if (thirdImgFile) {
+      landingData.thirdImageUrl = await uploadImageToFirebase(thirdImgFile, 'images');
+    }
+
+    // Sauvegarder dans Firestore
+    currentLandingPageId = await saveLandingPageToFirestore(landingData);
+    
+    console.log('✅ Landing page created successfully with ID:', currentLandingPageId);
+    alert('🎉 Landing page créée avec succès ! Les utilisateurs peuvent maintenant s\'inscrire.');
+
+  } catch (error) {
+    console.error('❌ Error creating landing page:', error);
+    errorElement.textContent = '❌ Erreur lors de la création de la landing page. Veuillez réessayer.';
+  }
+}
+
+</script>
+
+</body>
+</html>
